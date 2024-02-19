@@ -1,0 +1,22 @@
+CXX = g++
+
+CXXFLAGS = -std=c++20 -Wall
+
+all: LocalHost
+
+LocalHost: LocalHostApp.obj LHStaticLib.lib
+	gcc -O LocalHost LocalHostApp.obj -lm -L. -lLHStaticLib
+
+LocalHostApp.obj: LocalHostApp.cpp
+	gcc -O -c LocalHostApp.cpp
+
+System.obj: System.cpp System.h
+	gcc -O -c System.cpp
+
+LHStaticLib.lib: System.obj
+	ar rcs LHStaticLib.lib System.obj
+
+libs: LHStaticLib.lib
+
+clean:
+	rm -f myProgram *.obj *.lib *.gch
